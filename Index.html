@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form AI Completo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f6f8fc 0%, #e9f0f7 100%);
+            min-height: 100vh;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .banner {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffffff" opacity="0.1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>') repeat;
+            background-size: 50px 50px;
+            opacity: 0.1;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .banner-content h1 {
+            font-size: 2em;
+            font-weight: 500;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .banner-content p {
+            font-size: 1em;
+            font-weight: 300;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        #form-container {
+            width: 70%;
+            max-width: 800px;
+            min-width: 500px;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            border-left: 4px solid #4a90e2;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-section:hover {
+            transform: translateY(-2px);
+        }
+
+        .form-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231a73e8" opacity="0.1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>') no-repeat center;
+            background-size: contain;
+            opacity: 0.1;
+        }
+
+        .form-section h3 {
+            color: #2d3748;
+            font-size: 1.25em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(74, 144, 226, 0.1);
+        }
+
+        label {
+            display: block;
+            color: #4a5568;
+            font-size: 1em;
+            font-weight: 500;
+            margin: 20px 0 10px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 0.95em;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+            outline: none;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #1a73e8;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+        }
+
+        input[type="range"] {
+            height: 8px;
+            -webkit-appearance: none;
+            background: #e2e8f0;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #1a73e8;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #chat-container {
+            width: 30%;
+            max-width: 350px;
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 40px);
+            max-height: 700px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #4a90e2;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        #chat-container h2 {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            padding: 15px;
+            margin: 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        #chat-container h2::before {
+            content: "💬";
+        }
+
+        #chat-log {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            background: #f8fafc;
+            scrollbar-width: thin;
+            scrollbar-color: #4a90e2 #f8fafc;
+            border-radius: 0 0 18px 18px;
+        }
+
+        #chat-log::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-log::-webkit-scrollbar-track {
+            background: #f8fafc;
+            border-radius: 4px;
+        }
+
+        #chat-log::-webkit-scrollbar-thumb {
+            background-color: #4a90e2;
+            border-radius: 4px;
+        }
+
+        .chat-message {
+            background: white;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.95em;
+            line-height: 1.6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+            margin-left: 35px;
+            transition: transform 0.3s ease;
+            word-wrap: break-word;
+            max-width: calc(100% - 45px);
+            overflow-wrap: break-word;
+        }
+
+        .chat-message:hover {
+            transform: translateX(5px);
+        }
+
+        .chat-message::before {
+            content: "🤖";
+            position: absolute;
+            left: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .star {
+            cursor: pointer;
+            color: #ccc;
+            font-size: 24px;
+            transition: all 0.3s;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group label:hover {
+            background: rgba(74, 144, 226, 0.05);
+            border-color: #4a90e2;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin: 0;
+            width: 18px;
+            height: 18px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .radio-group label:hover {
+            background: rgba(74, 144, 226, 0.05);
+            border-color: #4a90e2;
+        }
+
+        .radio-group input[type="radio"] {
+            margin: 0;
+        }
+
+        .number-rating {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .number-rating label {
+            flex: 0 0 auto;
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .number-rating label:hover {
+            background: rgba(74, 144, 226, 0.05);
+            border-color: #4a90e2;
+        }
+
+        @media (max-width: 1200px) {
+            .content-wrapper {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            #form-container,
+            #chat-container {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            
+            #chat-container {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 350px;
+                height: 500px;
+                margin: 0;
+                top: auto;
+                transform: none;
+            }
+
+            #chat-log {
+                height: calc(100% - 60px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #chat-container {
+                width: 100%;
+                right: 0;
+                bottom: 0;
+                height: 400px;
+                border-radius: 20px 20px 0 0;
+            }
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>🤖 AI Form Assistant</h1>
+            <p>Scopri come l'Intelligenza Artificiale può rivoluzionare il tuo lavoro</p>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div id="form-container">
+            <h2>Form Analisi Aziendale AI</h2>
+            
+            <form id="ai-form">
+                <!-- Sezione 1: Informazioni di Base -->
+                <div class="form-section">
+                    <h3>📌 Informazioni di Base</h3>
+                    <label>1️⃣ Nome e Cognome</label>
+                    <input type="text" id="nome" name="nome" oninput="debounceSendData(this)">
+
+                    <label>2️⃣ Email aziendale</label>
+                    <input type="email" id="email" name="email" oninput="debounceSendData(this)">
+
+                    <label>3️⃣ Ruolo in azienda</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="ruolo" value="CEO" onchange="debounceSendData(this)"> CEO/Founder</label>
+                        <label><input type="radio" name="ruolo" value="Manager" onchange="debounceSendData(this)"> Manager</label>
+                        <label><input type="radio" name="ruolo" value="Analista" onchange="debounceSendData(this)"> Analista</label>
+                        <label><input type="radio" name="ruolo" value="IT" onchange="debounceSendData(this)"> IT</label>
+                        <label><input type="radio" name="ruolo" value="Altro" onchange="debounceSendData(this)"> Altro</label>
+                    </div>
+
+                    <label>4️⃣ Settore aziendale principale</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="settore" value="Finanza" onchange="debounceSendData(this)"> Finanza/Investimenti</label>
+                        <label><input type="radio" name="settore" value="Consulenza" onchange="debounceSendData(this)"> Consulenza</label>
+                        <label><input type="radio" name="settore" value="Industria" onchange="debounceSendData(this)"> Industria</label>
+                        <label><input type="radio" name="settore" value="Servizi" onchange="debounceSendData(this)"> Servizi</label>
+                        <label><input type="radio" name="settore" value="Altro" onchange="debounceSendData(this)"> Altro</label>
+                    </div>
+
+                    <label>5️⃣ Dimensione del team che utilizzerà l'AI</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="team_size" value="1-5" onchange="debounceSendData(this)"> 1-5 persone</label>
+                        <label><input type="radio" name="team_size" value="6-10" onchange="debounceSendData(this)"> 6-10 persone</label>
+                        <label><input type="radio" name="team_size" value="11-20" onchange="debounceSendData(this)"> 11-20 persone</label>
+                        <label><input type="radio" name="team_size" value="20+" onchange="debounceSendData(this)"> Più di 20 persone</label>
+                    </div>
+                </div>
+
+                <!-- Sezione 2: Livello di Conoscenza e Aspettative -->
+                <div class="form-section">
+                    <h3>📌 Conoscenza e Aspettative</h3>
+                    <label>6️⃣ Come valuteresti la tua conoscenza attuale dell'AI?</label>
+                    <div class="number-rating">
+                        <input type="radio" id="ai_1" name="conoscenza_ai" value="1" onchange="debounceSendData(this)">
+                        <label for="ai_1">1</label>
+                        <input type="radio" id="ai_2" name="conoscenza_ai" value="2" onchange="debounceSendData(this)">
+                        <label for="ai_2">2</label>
+                        <input type="radio" id="ai_3" name="conoscenza_ai" value="3" onchange="debounceSendData(this)">
+                        <label for="ai_3">3</label>
+                        <input type="radio" id="ai_4" name="conoscenza_ai" value="4" onchange="debounceSendData(this)">
+                        <label for="ai_4">4</label>
+                        <input type="radio" id="ai_5" name="conoscenza_ai" value="5" onchange="debounceSendData(this)">
+                        <label for="ai_5">5</label>
+                    </div>
+
+                    <label>7️⃣ Quali sono le tue principali aspettative dal corso?</label>
+                    <textarea id="aspettative" name="aspettative" oninput="debounceSendData(this)" placeholder="Es: Imparare a utilizzare l'AI per l'analisi dei bilanci, automatizzare le presentazioni..."></textarea>
+                </div>
+
+                <!-- Sezione 3: Ottimizzazione Presentazioni -->
+                <div class="form-section">
+                    <h3>📌 Ottimizzazione Presentazioni e Documenti</h3>
+                    <label>8️⃣ Quanto tempo passi a fare slide ogni mese?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="ore_presentazioni" value="0-5h" onchange="debounceSendData(this)"> Giusto qualche ora</label>
+                        <label><input type="radio" name="ore_presentazioni" value="6-15h" onchange="debounceSendData(this)"> Un bel po'</label>
+                        <label><input type="radio" name="ore_presentazioni" value="16-30h" onchange="debounceSendData(this)"> Decisamente troppe</label>
+                        <label><input type="radio" name="ore_presentazioni" value="Troppe per essere felice" onchange="debounceSendData(this)"> Troppo per essere felice 😅</label>
+                    </div>
+
+                    <label>9️⃣ Qual è la parte più frustrante nel fare presentazioni?</label>
+                    <textarea id="parte_noiosa" name="parte_noiosa" oninput="debounceSendData(this)" placeholder="Es: Formattazione infinita, aggiornamento grafici, copiare dati da Excel..."></textarea>
+                </div>
+
+                <!-- Sezione 4: Esigenze Specifiche -->
+                <div class="form-section">
+                    <h3>📌 Esigenze Specifiche</h3>
+                    <label>1️⃣0️⃣ Quali strumenti di AI conosci o hai già provato?</label>
+                    <textarea id="strumenti_ai" name="strumenti_ai" oninput="debounceSendData(this)" placeholder="Es: ChatGPT, Copilot, Midjourney, Excel AI, PowerPoint Designer..."></textarea>
+
+                    <label>1️⃣1️⃣ Se potessi automatizzare una sola cosa del tuo lavoro, quale sceglieresti?</label>
+                    <textarea id="automazione_desiderata" name="automazione_desiderata" oninput="debounceSendData(this)" placeholder="Es: Analisi bilanci, creazione report, ricerca informazioni..."></textarea>
+
+                    <label>1️⃣2️⃣ Qual è la tua più grande preoccupazione sull'uso dell'AI in azienda?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="preoccupazione" value="Privacy" onchange="debounceSendData(this)"> Privacy e sicurezza dei dati</label>
+                        <label><input type="radio" name="preoccupazione" value="Affidabilità" onchange="debounceSendData(this)"> Non mi fido al 100% dei risultati</label>
+                        <label><input type="radio" name="preoccupazione" value="Complessità" onchange="debounceSendData(this)"> Temo sia troppo complessa da usare</label>
+                        <label><input type="radio" name="preoccupazione" value="Costi" onchange="debounceSendData(this)"> I costi potrebbero essere eccessivi</label>
+                        <label><input type="radio" name="preoccupazione" value="Nessuna" onchange="debounceSendData(this)"> Nessuna, sono pronto a partire! 🚀</label>
+                    </div>
+                </div>
+
+                <!-- Sezione 5: Processi Aziendali -->
+                <div class="form-section">
+                    <h3>📌 Processi Aziendali</h3>
+                    <label>1️⃣3️⃣ Quanto tempo dedichi alla ricerca di informazioni ogni settimana?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="tempo_ricerca" value="0-5h" onchange="debounceSendData(this)"> 0-5 ore</label>
+                        <label><input type="radio" name="tempo_ricerca" value="6-15h" onchange="debounceSendData(this)"> 6-15 ore</label>
+                        <label><input type="radio" name="tempo_ricerca" value="16-30h" onchange="debounceSendData(this)"> 16-30 ore</label>
+                        <label><input type="radio" name="tempo_ricerca" value="30+" onchange="debounceSendData(this)"> Più di 30 ore</label>
+                    </div>
+
+                    <label>1️⃣4️⃣ Qual è il processo più ripetitivo nel tuo lavoro?</label>
+                    <textarea id="processo_ripetitivo" name="processo_ripetitivo" oninput="debounceSendData(this)" placeholder="Es: Compilazione report, analisi dati, ricerca informazioni..."></textarea>
+
+                    <label>1️⃣5️⃣ Come gestisci attualmente la documentazione?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gestione_doc" value="Cartelle" onchange="debounceSendData(this)"> Cartelle locali</label>
+                        <label><input type="radio" name="gestione_doc" value="Cloud" onchange="debounceSendData(this)"> Cloud storage</label>
+                        <label><input type="radio" name="gestione_doc" value="Sistema" onchange="debounceSendData(this)"> Sistema dedicato</label>
+                        <label><input type="radio" name="gestione_doc" value="Misto" onchange="debounceSendData(this)"> Approccio misto</label>
+                    </div>
+                </div>
+
+                <!-- Sezione 6: Integrazione AI -->
+                <div class="form-section">
+                    <h3>📌 Integrazione AI</h3>
+                    <label>1️⃣6️⃣ Come pensi che l'AI possa migliorare la collaborazione nel tuo team?</label>
+                    <textarea id="collaborazione" name="collaborazione" oninput="debounceSendData(this)" placeholder="Es: Condivisione conoscenze, automazione task, analisi dati..."></textarea>
+
+                    <label>1️⃣7️⃣ Quali sono i principali ostacoli all'implementazione dell'AI nel tuo team?</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="ostacoli" value="Formazione" onchange="debounceSendData(this)"> Formazione del team</label>
+                        <label><input type="checkbox" name="ostacoli" value="Budget" onchange="debounceSendData(this)"> Budget limitato</label>
+                        <label><input type="checkbox" name="ostacoli" value="Tecnici" onchange="debounceSendData(this)"> Problemi tecnici</label>
+                        <label><input type="checkbox" name="ostacoli" value="Resistenza" onchange="debounceSendData(this)"> Resistenza al cambiamento</label>
+                        <label><input type="checkbox" name="ostacoli" value="Nessuno" onchange="debounceSendData(this)"> Nessun ostacolo</label>
+                    </div>
+                </div>
+            </form>
+            <button id="submit-form" class="submit-button">🎯 Conferma e Invia</button>
+        </div>
+
+        <!-- CHATBOT -->
+        <div id="chat-container">
+            <h2 style="padding: 15px; margin: 0; border-bottom: 2px solid #f0f4f8;">Assistente AI</h2>
+            <div id="chat-log"></div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script>
+        let debounceTimer;
+        let lastField = "";
+    
+        function debounce(func, delay) {
+            return function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => func.apply(this, arguments), delay);
+            };
+        }
+
+        function addMessageToChat(message) {
+            const chatLog = document.getElementById("chat-log");
+            const messageDiv = document.createElement("div");
+            messageDiv.className = "chat-message";
+            messageDiv.textContent = message;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        // Gestione domande condizionali
+        function handleConditionalQuestions(input) {
+            const field = input.name;
+            const value = input.value;
+
+            // Mostra campo "Altri strumenti" se selezionato
+            if (field === 'strumenti_ai') {
+                const checkboxes = document.querySelectorAll('input[name="strumenti_ai"]:checked');
+                const hasAltro = Array.from(checkboxes).some(cb => cb.value === 'Altro');
+                document.getElementById('altri_strumenti').style.display = hasAltro ? 'block' : 'none';
+            }
+        }
+
+        // Modifica la funzione isFormComplete per essere più precisa
+        function isFormComplete(dati) {
+            const campiObbligatori = [
+                'nome', 'email', 'ruolo', 'settore', 'team_size',
+                'conoscenza_ai', 'aspettative', 'ore_presentazioni',
+                'parte_noiosa', 'strumenti_ai', 'automazione_desiderata',
+                'preoccupazione', 'tempo_ricerca', 'processo_ripetitivo',
+                'gestione_doc', 'collaborazione', 'ostacoli'
+            ];
+            
+            // Verifica che tutti i campi obbligatori siano compilati
+            const campiCompilati = campiObbligatori.every(campo => {
+                if (campo === 'ostacoli') {
+                    return document.querySelectorAll('input[name="ostacoli"]:checked').length > 0;
+                }
+                return dati[campo] && dati[campo].trim() !== "";
+            });
+
+            // Verifica che l'email sia in un formato valido
+            const emailValida = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(dati.email);
+
+            return campiCompilati && emailValida;
+        }
+
+        // Aggiungiamo un oggetto per tenere traccia delle risposte precedenti
+        let previousResponses = {};
+
+        // Modifichiamo la funzione sendData per gestire meglio le risposte multiple
+        async function sendData(input) {
+            handleConditionalQuestions(input);
+
+            const formData = new FormData(document.getElementById('ai-form'));
+            const dati = {
+                timestamp: new Date().toISOString(),
+                nome: formData.get('nome') || "",
+                email: formData.get('email') || "",
+                ruolo: formData.get('ruolo') || "",
+                settore: formData.get('settore') || "",
+                team_size: formData.get('team_size') || "",
+                conoscenza_ai: formData.get('conoscenza_ai') || "",
+                aspettative: formData.get('aspettative') || "",
+                ore_presentazioni: formData.get('ore_presentazioni') || "",
+                parte_noiosa: formData.get('parte_noiosa') || "",
+                strumenti_ai: formData.get('strumenti_ai') || "",
+                automazione_desiderata: formData.get('automazione_desiderata') || "",
+                preoccupazione: formData.get('preoccupazione') || "",
+                tempo_ricerca: formData.get('tempo_ricerca') || "",
+                processo_ripetitivo: formData.get('processo_ripetitivo') || "",
+                gestione_doc: formData.get('gestione_doc') || "",
+                collaborazione: formData.get('collaborazione') || "",
+                ostacoli: Array.from(document.querySelectorAll('input[name="ostacoli"]:checked')).map(cb => cb.value).join(', ') || ""
+            };
+
+            // Verifica se ci sono dati da inviare
+            if (!Object.values(dati).some(value => value !== "")) {
+                return;
+            }
+
+            try {
+                const sheetsResponse = await api.saveToGoogleSheets(dati);
+            } catch (error) {
+                addMessageToChat("❌ Ops! Il nostro robot ha avuto un momento di confusione! 🤖 Riprova tra un attimo!");
+            }
+            
+            // Genera risposta AI solo se il campo ha un valore
+            if (input.value) {
+                const fieldDescriptions = {
+                    'nome': 'il tuo nome',
+                    'email': 'la tua email',
+                    'ruolo': 'il tuo ruolo',
+                    'settore': 'il tuo settore',
+                    'team_size': 'la dimensione del team',
+                    'conoscenza_ai': 'la tua conoscenza dell\'AI',
+                    'aspettative': 'le tue aspettative dal corso',
+                    'ore_presentazioni': 'le ore di presentazioni',
+                    'parte_noiosa': 'la parte noiosa delle slide',
+                    'strumenti_ai': 'gli strumenti di AI conosciuti',
+                    'automazione_desiderata': 'l\'attività da automatizzare',
+                    'preoccupazione': 'la tua preoccupazione sull\'uso dell\'AI',
+                    'tempo_ricerca': 'il tempo dedito alla ricerca di informazioni',
+                    'processo_ripetitivo': 'il processo più ripetitivo nel tuo lavoro',
+                    'gestione_doc': 'la gestione della documentazione',
+                    'collaborazione': 'come pensi che l\'AI possa migliorare la collaborazione',
+                    'ostacoli': 'i principali ostacoli all\'implementazione dell\'AI'
+                };
+
+                const fieldName = fieldDescriptions[input.name] || input.name;
+                const previousValue = previousResponses[input.name];
+                const isUpdate = previousValue && previousValue !== input.value;
+
+                const prompt = `Sei un assistente AI brillante e ironico che aiuta a compilare un form aziendale.
+                L'utente ha appena inserito ${fieldName}: "${input.value}"
+                ${isUpdate ? `(precedentemente aveva inserito: "${previousValue}")` : ''}
+                
+                Fornisci una risposta che:
+                1. Sia originale e imprevedibile, evitando cliché e risposte standard
+                2. Usi giochi di parole creativi e battute intelligenti
+                3. Includa riferimenti pop culture, film, serie TV o meme
+                4. Per i nomi: crea associazioni divertenti e inaspettate
+                5. Per le email: fai giochi di parole con il dominio o suggerisci usi creativi
+                6. Per i ruoli: collega il ruolo a situazioni divertenti o paradossali
+                7. Usi emoji in modo strategico (max 2)
+                8. Non superi i 120 caratteri
+                9. Se è un aggiornamento, riconosci il cambiamento in modo divertente e inaspettato
+                
+                Esempi:
+                Per il nome "Antonio": "Antonio? 🎭 Come Antonio Banderas, ma invece di Zorro, sei qui per salvare il mondo dal lavoro manuale! 😎"
+                Per l'email "antonio@example.com": "Email che inizia con 'antonio'? 📧 Come Antonio Meucci, ma invece del telefono, stai per rivoluzionare il mondo del lavoro! 🎯"
+                Per il ruolo "IT": "IT? 💻 Come il dottor Strange, ma invece di manipolare il tempo, manipoli il codice! ‍♂️"
+                Per conoscenza AI "4": "Livello 4? 🎮 Come un Pokémon evoluto, ma manca solo l'ultima evoluzione per diventare un vero maestro dell'AI! 🚀"
+                Per "Automazione processi": "Automazione? 🤖 Da manuale a automatico, come passare dalla bicicletta alla DeLorean! ‍"`;
+                
+                try {
+                    const data = await api.callOpenAI(prompt);
+                    const aiMessage = data.choices[0].message.content;
+                    addMessageToChat(aiMessage);
+                    
+                    // Aggiorna il valore precedente
+                    previousResponses[input.name] = input.value;
+                } catch (error) {
+                    addMessageToChat("🤔 Mi scuso, sto elaborando una risposta degna della tua visione...");
+                }
+            }
+        }
+    
+        const debounceSendData = debounce(sendData, 1000);
+
+        // Aggiungi questa funzione per generare la risposta finale personalizzata
+        async function generateFinalResponse(dati) {
+            const prompt = `Sei un assistente AI brillante e ironico che sta concludendo una conversazione con un utente che ha appena compilato un form aziendale.
+            Ecco i dati principali dell'utente:
+            - Nome: ${dati.nome}
+            - Ruolo: ${dati.ruolo}
+            - Settore: ${dati.settore}
+            - Conoscenza AI: ${dati.conoscenza_ai}/5
+            - Aspettative: ${dati.aspettative}
+            - Processo più ripetitivo: ${dati.processo_ripetitivo}
+            - Automazione desiderata: ${dati.automazione_desiderata}
+            
+            Crea una risposta finale che:
+            1. Sia personalizzata e pertinente ai dati forniti
+            2. Includa riferimenti specifici al ruolo e al settore
+            3. Faccia battute intelligenti sulla loro situazione lavorativa
+            4. Suggerisca in modo divertente come l'AI potrebbe aiutarli
+            5. Concluda con un messaggio motivante
+            6. Usi emoji in modo strategico (max 3)
+            7. Sia lunga circa 3-4 frasi
+            
+            Esempio di tono:
+            "Wow ${dati.nome}! 🎯 Come ${dati.ruolo} nel settore ${dati.settore}, stai per diventare il Tony Stark del tuo campo! 
+            Con la tua voglia di automatizzare ${dati.automazione_desiderata}, l'AI sarà il tuo J.A.R.V.I.S. personale! 
+            Preparati a rivoluzionare il tuo lavoro come Iron Man ha rivoluzionato la tecnologia! 🚀"`;
+
+            try {
+                const data = await api.callOpenAI(prompt);
+                return data.choices[0].message.content;
+            } catch (error) {
+                return "🎉 Grazie per aver condiviso la tua visione del futuro con l'AI! Sei un vero innovatore! 🚀";
+            }
+        }
+
+        // Aggiungi l'event listener per il pulsante di invio
+        document.getElementById('submit-form').addEventListener('click', async function() {
+            const formData = new FormData(document.getElementById('ai-form'));
+            const dati = {
+                nome: formData.get('nome') || "",
+                email: formData.get('email') || "",
+                ruolo: formData.get('ruolo') || "",
+                settore: formData.get('settore') || "",
+                team_size: formData.get('team_size') || "",
+                conoscenza_ai: formData.get('conoscenza_ai') || "",
+                aspettative: formData.get('aspettative') || "",
+                ore_presentazioni: formData.get('ore_presentazioni') || "",
+                parte_noiosa: formData.get('parte_noiosa') || "",
+                strumenti_ai: formData.get('strumenti_ai') || "",
+                automazione_desiderata: formData.get('automazione_desiderata') || "",
+                preoccupazione: formData.get('preoccupazione') || "",
+                tempo_ricerca: formData.get('tempo_ricerca') || "",
+                processo_ripetitivo: formData.get('processo_ripetitivo') || "",
+                gestione_doc: formData.get('gestione_doc') || "",
+                collaborazione: formData.get('collaborazione') || "",
+                ostacoli: Array.from(document.querySelectorAll('input[name="ostacoli"]:checked')).map(cb => cb.value).join(', ') || ""
+            };
+
+            if (isFormComplete(dati)) {
+                const finalResponse = await generateFinalResponse(dati);
+                addMessageToChat(finalResponse);
+                
+                // Aggiungi un piccolo ritardo prima di mostrare il messaggio di conferma
+                setTimeout(() => {
+                    addMessageToChat("🎯 Form completato con successo! Grazie per aver partecipato a questa rivoluzione AI! 🚀");
+                }, 2000);
+            } else {
+                addMessageToChat("❌ Ops! Sembra che manchino ancora alcune informazioni. Completa tutti i campi per ricevere la tua risposta personalizzata! 🎯");
+            }
+        });
+    </script>
+
+</body>
+</html>
